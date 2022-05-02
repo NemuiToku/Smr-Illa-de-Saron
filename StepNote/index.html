@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <title>StepNote</title>
+
+    <link rel="icon" type="image/ico" href="./favicons/favicon.ico">
+    <link rel="icon" type="image/png" href="./favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="apple-touch-icon" href="./favicons/apple-touch-icon.png" >
+    <link rel="android-chrome-icon" href="./favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="android-chrome-icon" href="./favicons/android-chrome-512x512.png" sizes="512x512">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="./bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="./resources/css/styles.css" rel="stylesheet"/>
+    
+  </head>
+  <body>
+    <p class="nosize">make your screen bigger</p>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js" integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsstore/dist/jsstore.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jsstore/dist/jsstore.worker.min.js"></script>
+    <script src="./resources/js/db.js"></script>
+    <script src="./node_modules/file-saver/dist/FileSaver.js"></script>
+    <script type="text/javascript" src="./resources/js/app.js"></script>
+
+  <div class="container-fluid w-75 align-items-center" id="pagebody"> 
+    <nav class="navbar navbar-light bg-light align-items-center">
+      <div class="container-fluid" id="navcontainer">
+        <div id="topnav" class="container-fluid nav justify-content-between align-items-center">
+        <i class="navbar-brand nav-item">
+         <img src="./bootstrap-icons/icons/layout-text-sidebar-reverse.svg" id="logo" width="30" height="30"/> StepNote
+        </i>
+        <textarea class="nav bg-transparent fw-light nav-item" placeholder="Inserte Su Título" contenteditable="true" id="titleholder"></textarea>
+        <div class="nav" id="topbuttons">
+          <button class="button nav-link nav-item bi bi-cloud-download" id="dbsave" style="font-size: 1.5em" onclick="DbSave();" title="Guardar en la Base de Datos"> <span class="oculto">Guardar en la Base de Datos</span></button>
+          <button class="button nav-link nav-item bi bi-download" id="save" style="font-size: 1.5em" onclick="guardararchivo();" title="Descargar"> <span class="oculto">Descargar</span></button>
+          <button class="button nav-link nav-item bi bi-file-plus" style="font-size: 1.5em" id="new" onclick="clearFile();" title="Nuevo Archivo"> <span class="oculto">Nuevo Archivo</span></button>
+        </div>
+        
+        </div>
+        <textarea class="textarea w-100" placeholder="¿Que tienes en mente?" contenteditable="true" id="texto" onkeyup="countChars(this);"></textarea>
+        <div class="nav container-fluid justify-content-between align-items-center" id="navbot">
+          <div id="CharCount">
+            0 Caracteres
+          </div>
+          <nav class="nav">
+            <input type="number" id="sqlupload" onchange="readDB();">
+            <input type="file" id="upload" onchange="readFile(this);" style="font-size: 1.3em" title="Cargar Archivo en Local"></input>
+            <label for="upload" class="button nav-link nav-item bi bi-file-earmark-text" style="font-size: 1.3em"></label>
+            <button class="button nav-link nav-item bi bi-card-list" id="read" onclick="listDB();" style="font-size: 1.3em" title="Todos los Archivos"></button>
+          </nav>
+          </div>
+      </div>
+      <div class="container-fluid nav justify-content-center socialmedia">
+        <a href="https://discord.com/users/281735466389078016" target="_blank" class="button nav-link nav-item bi bi-discord" style="font-size: 2em;" id="discord"></a>
+        <a href="https://github.com/Heraki" target="_blank" class="button nav-link nav-item bi bi-github" style="font-size: 2em" id="github"></a>
+      </div>  
+    </nav>     
+  
+  </body>
+</html>

@@ -1,0 +1,163 @@
+:root{
+    --main: #c4a292;
+    --dark: #bb9583;
+    --darker: #ab8675;
+    --note: #f8f8cc;
+    --button: #705329;
+    --black: #000000;
+    --white: #ffffff;
+
+}
+
+@media screen and (max-width: 600px){
+    nav,#topbuttons,div{
+        display: none;
+    }
+    .nosize{
+        display:block!important;
+        color:var(--white)!important;
+        opacity: 100!important;
+    }
+    
+}
+@media screen and (max-width: 890px) {
+    body{
+        width: 100%;
+    }
+    
+#topbuttons{
+    overflow: hidden;
+    position: absolute;
+    top: 50px;
+    left: 0px;
+    flex-direction: column;
+    display: block;
+    background-color: var(--main);
+    width: 100%;
+    border-bottom: 1px solid black;
+}
+.oculto{
+    display: inline-flex!important;
+}
+.nosize{
+    opacity: 0;
+}
+}
+/* Etiquetas */
+
+body{
+    padding: 1em;
+    margin: auto;
+    background-color: #282a2d;
+}
+button, label {
+    color:black!important;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    align-self: center;
+}
+
+
+img{
+    padding: 3px;
+    flex-grow: 2;
+    flex-shrink: 1;
+}
+
+/* Estilos */
+
+button:hover,label:hover{
+    color: var(--button)!important;
+}
+
+.oculto{
+    display: none;
+}
+
+.nosize{
+    display: none;
+}
+.textarea {
+background-color: var(--note);
+border-left: 1px solid black;
+border-right: 1px solid black;
+border: 1px solid black;
+padding: 1em;
+resize: none;
+min-height: 70vh;
+margin-bottom: 0px;
+}
+
+.socialmedia{
+    background-color: var(--darker);
+    margin: 10px 13px 2px;
+    border: 1px solid black;
+}
+
+[contenteditable] {
+    outline: 0px solid transparent;
+  }
+
+.navbar{
+    border: 1px solid black;
+    background-color: var(--main)!important;
+    min-height: 8vh;
+}
+/* ID's */
+#titleholder{
+    border: 1px solid black;
+    text-align: center;
+    flex-grow: 4;
+    flex-shrink: 1;
+    max-width: 50%;
+    max-height: 30px;
+    resize: none;
+    background-color: var(--dark)!important;
+}
+
+#titleholder::placeholder{
+    color: black!important;
+}
+
+#navbot {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: var(--darker)!important;
+    
+}
+
+#CharCount {
+    padding-left:1em;
+    align-items: center;
+}
+
+#discord{
+    color: var(--black)
+}
+#discord:hover{
+    color: rgb(88, 101, 242)!important;
+}
+
+#github{
+    color: var(--black)
+}
+#github:hover{
+    color: var(--white)!important;
+}
+
+#upload {
+    display: none;
+}
+
+#sqlupload{
+    max-width: 50px;
+    max-height: 30px;
+    align-self: center;
+    resize: none;
+    outline: 0px solid transparent;
+    text-align: center;
+    background-color: var(--dark)!important;
+    border: 1px solid rgb(74, 62, 42)
+}
