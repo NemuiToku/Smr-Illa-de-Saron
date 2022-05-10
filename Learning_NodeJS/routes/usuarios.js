@@ -36,7 +36,11 @@ var db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 app.get("/api/usuarios", verifyToken, (req, res, next) => {
-    res.set('Authorization', 'Bearer'+' '+req.token)
+
+    var auth = sessionStorage.getItem('authToken')
+    res.headers('Authorization', 'Bearer'+' '+auth)
+    res.send()
+
     jwt.verify(req.token, 'secretkey', (err) => {
         if(err) {
             res.sendStatus(403)
@@ -50,7 +54,6 @@ app.get("/api/usuarios", verifyToken, (req, res, next) => {
               });
         }
     })
-
 });
 
 app.get("/api/usuarios/:id", (req, res, next) => {
@@ -147,12 +150,14 @@ app.post("/api/usuarios/login", (req, res) => {
         };
 
         jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
-            res.json ({
-                token,
-            }) 
+            //res.json ({
+            //    token,
+            //})
+            sessionStorage.setItem('authToken', JSON.parse(token))
+            sessionStorage.getItem('authToken')
+            res.send();
         });
-        res.append('Authorization', req.token)
-        res.redirect('http://127.0.0.1:3002/API/usuarios')
+        //res.redirect('http://127.0.0.1:3002/API/usuarios')
     });
       
       function verifyToken(req, res, next) {
