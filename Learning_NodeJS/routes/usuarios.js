@@ -36,23 +36,21 @@ var db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 app.get("/api/usuarios", verifyToken, (req, res, next) => {
-    jwt.verify(req.token, 'secretkey', (err, authData ) => {
+    res.set('Authorization', 'Bearer'+' '+req.token)
+    jwt.verify(req.token, 'secretkey', (err) => {
         if(err) {
             res.sendStatus(403)
         } else {
-            res.json ({
-                message: 'Verified',
-                authData,
-            })
+            db.all("SELECT * FROM usuarios", [], (err, rows) => {
+                if (err) {
+                  res.status(400).json({"error":err.message});
+                  return;
+                }
+                res.status(200).json({rows});
+              });
         }
     })
-    db.all("SELECT * FROM usuarios", [], (err, rows) => {
-        if (err) {
-          res.status(400).json({"error":err.message});
-          return;
-        }
-        res.status(200).json({rows});
-      });
+
 });
 
 app.get("/api/usuarios/:id", (req, res, next) => {
@@ -145,15 +143,17 @@ app.post("/api/usuarios/login", (req, res) => {
         const user = {
             username: req.body.username,
             email: req.body.email,
-            password: req.body.password
+            password: md5(seed+req.body.password)
         };
 
-        jwt.sign({ user: user }, "secretkey", (err, token) => {
+        jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
             res.json ({
                 token,
-            });
+            }) 
         });
-      });
+        res.append('Authorization', req.token)
+        res.redirect('http://127.0.0.1:3002/API/usuarios')
+    });
       
       function verifyToken(req, res, next) {
           const bearerHeader = req.headers['authorization'];
