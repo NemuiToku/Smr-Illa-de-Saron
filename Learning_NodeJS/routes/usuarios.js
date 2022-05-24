@@ -3,7 +3,6 @@ const md5 = require('md5')
 const Joi = require ('@hapi/joi')
 const jwt = require ('jsonwebtoken');
 const seed = 'prueba'
-
 const schema = Joi.object({
     username: Joi.string()
         .min(6)
@@ -20,10 +19,10 @@ const schema = Joi.object({
 
 
 const users = app =>{
-
+    
 var db = new sqlite3.Database('./database.sqlite', (err) => {
     if (err) {
-        console.error("Erro opening database " + err.message);
+        console.error("Error opening database " + err.message);
     } else {
 
     db.run('CREATE TABLE IF NOT EXISTS usuarios( \
@@ -36,11 +35,6 @@ var db = new sqlite3.Database('./database.sqlite', (err) => {
 });
 
 app.get("/api/usuarios", verifyToken, (req, res, next) => {
-
-    var auth = sessionStorage.getItem('authToken')
-    res.headers('Authorization', 'Bearer'+' '+auth)
-    res.send()
-
     jwt.verify(req.token, 'secretkey', (err) => {
         if(err) {
             res.sendStatus(403)
@@ -149,17 +143,31 @@ app.post("/api/usuarios/login", (req, res) => {
             password: md5(seed+req.body.password)
         };
 
-        jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
-            //res.json ({
-            //    token,
-            //})
-            sessionStorage.setItem('authToken', JSON.parse(token))
-            sessionStorage.getItem('authToken')
-            res.send();
-        });
-        //res.redirect('http://127.0.0.1:3002/API/usuarios')
+        //COMPROBACIÓN DE CREDENCIALES
+            const sql = 'SELECT EXISTS(SELECT * FROM usuarios WHERE username = ? AND password = ?)'
+            db.get(sql,[user.username, user.password],function (err, row) {
+
+                var data = JSON.stringify(row).split(":").pop().replace("}",'')
+                console.log(data)
+                if(data == "1"){
+                try
+                {
+                    jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
+                            res.json ({
+                            token
+                        })
+                    });
+                }
+                catch (e)
+                {
+                    res.status(400)
+                    console.log(e.message)
+                }
+            }
+            });
+
     });
-      
+
       function verifyToken(req, res, next) {
           const bearerHeader = req.headers['authorization'];
           if (typeof bearerHeader !== 'undefined') {
