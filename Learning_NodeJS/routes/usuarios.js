@@ -18,7 +18,7 @@ const schema = Joi.object({
 
 
 
-const users = app =>{
+const users = async app =>{
     
 var db = new sqlite3.Database('./database.sqlite', (err) => {
     if (err) {
@@ -34,7 +34,7 @@ var db = new sqlite3.Database('./database.sqlite', (err) => {
     }
 });
 
-app.get("/api/usuarios", verifyToken, (req, res, next) => {
+app.get("/api/usuarios", verifyToken, async (req, res, next) => {
     jwt.verify(req.token, 'secretkey', (err) => {
         if(err) {
             res.sendStatus(403)
@@ -50,7 +50,7 @@ app.get("/api/usuarios", verifyToken, (req, res, next) => {
     })
 });
 
-app.get("/api/usuarios/:id", (req, res, next) => {
+app.get("/api/usuarios/:id", async (req, res, next) => {
     var sql = "SELECT * FROM usuarios WHERE id = ?"
     var params = [req.params.id]
     db.get(sql, params, (err, row) => {
@@ -65,7 +65,7 @@ app.get("/api/usuarios/:id", (req, res, next) => {
       });
 });
 
-app.patch("/api/usuarios/:id", (req, res, next) => {
+app.patch("/api/usuarios/:id", async (req, res, next) => {
     var data = {
         email: req.body.email,
         password : req.body.password,
@@ -130,7 +130,7 @@ app.post("/api/usuarios/register", async (req, res, next) => {
         });
     })
     
-app.post("/api/usuarios/login", (req, res) => {
+app.post("/api/usuarios/login", async (req, res) => {
 
       
         //VALIDACIÓN DE USUARIO
@@ -144,26 +144,31 @@ app.post("/api/usuarios/login", (req, res) => {
         };
 
         //COMPROBACIÓN DE CREDENCIALES
-            const sql = 'SELECT EXISTS(SELECT * FROM usuarios WHERE username = ? AND password = ?)'
-            db.get(sql,[user.username, user.password],function (err, row) {
+            const sql = 'SELECT * FROM usuarios WHERE username = ? AND password = ?'
+            await db.get(sql,[user.username, user.password],function (err, row) {
 
-                var data = JSON.stringify(row).split(":").pop().replace("}",'')
+                /*var data = JSON.stringify(row).split(":").pop().replace("}",'')*/
+               
+                if (typeof row !== 'undefined')
+                {
+                var credentials = JSON.parse(JSON.stringify(row))
+                var data = Object.keys(credentials).length;
+                
                 console.log(data)
-                if(data == "1"){
-                try
+                } 
+                else 
                 {
+                    
+                    console.error(err)
+                    res.status(400).send('Wrong Credentials')
+                
+                }
+
+                if(data >= "1"){
                     jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
-                            res.json ({
-                            token
-                        })
+                            res.json ({ token })
                     });
-                }
-                catch (e)
-                {
-                    res.status(400)
-                    console.log(e.message)
-                }
-            }
+                };
             });
 
     });
