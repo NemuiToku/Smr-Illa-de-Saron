@@ -166,8 +166,11 @@ app.post("/api/usuarios/login", async (req, res) => {
 
                 if(data >= "1"){
                     jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
-                            res.json ({ token })
+                            /*res.json ({ token })*/
+                            res.send(token)
+                            res.cookie('token', token)
                     });
+                    // res.redirect("http://127.0.0.1:3002/API/usuarios")
                 };
             });
 
