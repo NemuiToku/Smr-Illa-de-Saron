@@ -144,8 +144,8 @@ app.post("/api/usuarios/login", async (req, res) => {
         };
 
         //COMPROBACIÓN DE CREDENCIALES
-            const sql = 'SELECT * FROM usuarios WHERE username = ? AND password = ?'
-            await db.get(sql,[user.username, user.password],function (err, row) {
+            const sql = 'SELECT * FROM usuarios WHERE username = ? AND email = ? AND password = ?'
+            await db.get(sql,[user.username, user.email, user.password],function (err, row) {
 
                 /*var data = JSON.stringify(row).split(":").pop().replace("}",'')*/
                
@@ -167,8 +167,7 @@ app.post("/api/usuarios/login", async (req, res) => {
                 if(data >= "1"){
                     jwt.sign({ user: user }, "secretkey",{ expiresIn: '10h'}, (err, token) => {
                             /*res.json ({ token })*/
-                            res.send(token)
-                            res.cookie('token', token)
+                            res.json(token)
                     });
                     // res.redirect("http://127.0.0.1:3002/API/usuarios")
                 };
