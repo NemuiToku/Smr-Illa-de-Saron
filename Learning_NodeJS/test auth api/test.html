@@ -1,0 +1,120 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        html, body {
+        display: flex;
+        justify-content: center;
+        font-family: Roboto, Arial, sans-serif;
+        font-size: 15px;
+        }
+        form {
+        border: 5px solid #f1f1f1;
+        }
+        input[type=text], input[type=password] {
+        width: 100%;
+        padding: 16px 8px;
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        }
+        button {
+        background-color: #8ebf42;
+        color: white;
+        padding: 14px 0;
+        margin: 10px 0;
+        border: none;
+        cursor: grabbing;
+        width: 100%;
+        }
+        h1 {
+        text-align:center;
+        font-size:18;
+        }
+        button:hover {
+        opacity: 0.8;
+        }
+        .formcontainer {
+        text-align: left;
+        margin: 24px 50px 12px;
+        }
+        .container {
+        padding: 16px 0;
+        text-align:left;
+        }
+        span.psw {
+        float: right;
+        padding-top: 0;
+        padding-right: 15px;
+        }
+        /* Change styles for span on extra small screens */
+        @media screen and (max-width: 300px) {
+        span.psw {
+        display: block;
+        float: none;
+        }
+    }
+      </style>
+    <title>Document</title>
+</head>
+<body>
+  <script>
+
+    if ('token' in sessionStorage){
+      LoadPage();
+    }
+    
+    function LoadPage(){
+      var authtoken = window.sessionStorage.getItem('token')
+      fetch("http://localhost:3002/API/usuarios", {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'bearer '+authtoken,
+    },
+      })
+      .then(response => response.json())
+      .then(values => {
+        document.write(JSON.stringify(values))
+      })
+    }
+    async function savedata() {
+      var user = ({
+        "username": document.getElementById("user").value,
+        "email": document.getElementById("mail").value,
+        "password": document.getElementById("pw").value
+      })
+      
+      await fetch("http://localhost:3002/API/usuarios/login", {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(user),
+      })
+      .then(response => response.json())
+      .then(data => {
+        window.sessionStorage.setItem('token', data)  
+        LoadPage();
+    })
+
+} 
+  </script>
+        <div class="formcontainer">
+        <hr/>
+        <div class="container">
+          <label for="username"><strong>Username</strong></label>
+          <input type="text" placeholder="Enter Username" name="username" required id="user">
+          <label for="email"><strong>E-Mail</strong></label>
+          <input type="text" placeholder="Enter E-Mail" name="email" required id="mail">
+          <label for="password"><strong>Password</strong></label>
+          <input type="password" placeholder="Enter Password" name="password" required id="pw">
+        </div>
+        <button onclick="savedata()">Login</button>
+</body>
+</html>

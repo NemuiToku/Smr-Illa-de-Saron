@@ -1,0 +1,9 @@
+### GET TOKEN
+
+cURL -X POST -H 'Content-type: application/x-www-form-urlencoded' -d "username=Toku_Nemui&email=test123@gmail.com&password=testing" "http://localhost:3002/API/usuarios/login"
+
+### POST TOKEN && VIEW CONTENT
+
+GET http://localhost:3002/API/usuarios
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InVzZXJuYW1lIjoiVG9rdV9OZW11aSIsImVtYWlsIjoidGVzdDEyM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IjIwNTM2ODY3ZDNjOWExZmJiNTBiYzI0MjEwMjM2ZTY0In0sImlhdCI6MTY1NDA3NDUyMSwiZXhwIjoxNjU0MTEwNTIxfQ.w5KzsF0oZ6dxVPRjqpUc-uXXlZAzKHfLcOhfHuR-Lcw
+Content-Type: application/json
