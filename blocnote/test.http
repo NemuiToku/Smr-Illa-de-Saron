@@ -1,0 +1,8 @@
+cURL -X POST -H 'Content-type: application/x-www-form-urlencoded' -d "title=test123&text=prueba 123 ." "http://localhost:3002/tables"
+
+###
+
+GET http://127.0.0.1:4002/tables/
+
+###
+DELETE http://127.0.0.1:4002/tables/1
