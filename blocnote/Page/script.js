@@ -2,7 +2,21 @@ $(document).ready(() => {
     document.getElementById("title").value = ""
     document.getElementById("note").value = ""
 
-})
+    var url = "http://localhost:4002/tables/" 
+    fetch(url, {
+        method: 'GET',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json'
+          },
+    }).then((res) => res.json())
+    .then(data =>
+            $('#sidebar').append(`<div style="margin-top: 10px;"    class='card'>
+            Id:${data.rows[0].id}</br>
+            Titulo: ${data.rows[0].title}</br>
+            Texto: ${data.rows[0].text} </br>
+            </div>`)
+)})
 
 $("#new").click(() => {
     document.getElementById("title").value = ""
@@ -88,5 +102,7 @@ $("#UpdateSQL").click(() =>{
           },
 
     body: JSON.stringify(data)
-})
+}).then(
+    $("#alerts").append('<div class="alert alert-warning alert-dismissible fade show m-2"><strong>Success!</strong> - Note updated correctly  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>')
+)
 })

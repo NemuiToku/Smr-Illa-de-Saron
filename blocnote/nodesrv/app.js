@@ -19,7 +19,7 @@ const DBApi = async app =>{
                       res.status(400).json({"error":err.message});
                       return;
                     }
-                    res.status(200).json({rows});
+                    res.json({rows})
                   });
         });
 
@@ -73,7 +73,7 @@ const DBApi = async app =>{
         })
 
         app.patch("/tables", async (req, res, next) => {
-            var update = `UPDATE notes SET title = '?', text = '?', WHERE id = ?`
+            var update = `UPDATE notes SET title = ?, text = ? WHERE id = ?`
             var params = [req.body.title, req.body.text, req.body.id]
             db.all(update, params, function (err, result) {
                 if (err){     
@@ -83,7 +83,6 @@ const DBApi = async app =>{
                     }else {
                     res.json({
                         message: "success",
-                        data: data,
                         changes: this.changes
                     })
             }});
