@@ -21,7 +21,7 @@
         <div>
             <a type="submit" id="new" class="btn btn-primary" role="button">New Note</a>
            
-            <a type="submit" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#selectnote">Load from Database</a>
+            <a type="submit" class="btn btn-primary" role="button" data-bs-toggle="modal" data-bs-target="#selectnote">Database</a>
             <div class="modal fade" id="selectnote" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                   <div class="modal-content">
@@ -30,18 +30,21 @@
                       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                      Select Note ID:
-                      <input type="number" id="noteID">
+                      <p>Select Note ID:</p>
+                      <textarea type="number" rows="1" id="noteID"></textarea>
                     </div>
                     <div class="modal-footer">
-                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                      <button id="LoadSQL" type="button" class="btn btn-primary" data-bs-dismiss="modal">Load Note</button>
+                      <button id="DeleteSQL" type="button" class="btn btn-danger" data-bs-dismiss="modal">Delete Note</a>
+                      <button id="SaveSQL" type="button" class="btn btn-primary" data-bs-dismiss="modal">Save Note</a>
+                        <button id="UpdateSQL" type="button" class="btn btn-primary" data-bs-dismiss="modal">Update Note</a>
+                        <button id="LoadSQL" type="button" class="btn btn-primary" data-bs-dismiss="modal">Load Note</button>
+                      
                     </div>
                   </div>
                 </div>
               </div>
 
-            <a type="submit" id="SaveSQL" class="btn btn-primary" role="button">Save on DataBase</a>
+            
         </div>
     </header>
     

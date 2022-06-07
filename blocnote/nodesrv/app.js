@@ -72,32 +72,24 @@ const DBApi = async app =>{
             });
         })
 
-        app.patch("/api/tables/:id", async (req, res, next) => {
-            var data = {
-                title: req.body.title,
-                text : req.body.text
-            }
-            
-            db.run(
-                `UPDATE usuarios set 
-                  title = COALESCE(?,title), 
-                  text = COALESCE(?,text),
-                   WHERE id = ?`,
-                   [data.title, data.text, req.body.id],
-
-                function (err, result) {
-                    if (err){
-                        res.status(400).json({"error": res.message})
-                        return;
-                    }
+        app.patch("/tables", async (req, res, next) => {
+            var update = `UPDATE notes SET title = '?', text = '?', WHERE id = ?`
+            var params = [req.body.title, req.body.text, req.body.id]
+            db.all(update, params, function (err, result) {
+                if (err){     
+                    res.status(400)
+                    console.log(err.message)
+                    return;                  
+                    }else {
                     res.json({
                         message: "success",
                         data: data,
                         changes: this.changes
                     })
-            });
+            }});
         })
-};
+    
+    };
 
 
 
