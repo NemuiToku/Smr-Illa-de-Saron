@@ -23,6 +23,17 @@ const DBApi = async app =>{
                   });
         });
 
+        app.get("/tables/IDs", (req, res, err) => {
+            db.all("SELECT id FROM notes", [], (err, rows) => {
+                if (err) {
+                  res.status(400).json({"error":err.message});
+                  return;
+                }
+                res.json({rows})
+              });
+    });
+
+
     app.get("/tables/:id", async (req, res, next) => {
         var sql = "SELECT * FROM notes WHERE id = ?"
         var params = [req.params.id]
